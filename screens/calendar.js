@@ -8,14 +8,15 @@ import {
   StatusBar,
 } from 'react-native';
 
-function Canledar() {
+import MyCalendar from '../component/myCalendar';
+
+
+function Calendar() {
     return (
         <View>
-            <Text>
-                Calendar
-            </Text>
+            <MyCalendar />
         </View>
     )
 }
 
-export default Canledar
+export default Calendar;
