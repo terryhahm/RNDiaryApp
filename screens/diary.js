@@ -8,6 +8,8 @@ import {
   StatusBar,
 } from 'react-native';
 
+
+
 function Diary({ route, navigation }) {
 
     const [date, setDate] = useState( new Date().getDate() )
