@@ -13,15 +13,13 @@ const height = Dimensions.get('window').height;
 
 function Calendar({ navigation }) {
 
-    // By Default, highlight Today
     const [date, setDate] = useState( new Date().getDate() )
     const [month, setMonth] = useState( new Date().getMonth() )
     const [year, setYear] = useState( new Date().getFullYear() )
-    const [showMonth, setShowMonth] = useState( true )
     const [calendar, setCalendar] = useState( [] );
     const swipeConfig = {
         velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
+        directionalOffsetThreshold: 50
     };
 
     // When user click another date, change the date state
@@ -39,32 +37,6 @@ function Calendar({ navigation }) {
             });
         }
         return
-    }
-
-    // When user click next month button, set month & year accordingly
-    function onNextMonthPress() {
-        // If current month is December, increase year by 1 and set month to January
-        if( month == 11 ) {
-            setYear( year + 1)
-            setMonth( 0 )
-        }
-        // Else increase month by 1
-        else {
-            setMonth( month + 1)
-        }
-    }
-
-    // When user click previous month button, set month & year accordingly
-    function onPrevMonthPress() {
-        // If current month is January, decrease year by 1 and set month to December
-        if( month == 0 ) {
-            setYear( year - 1)
-            setMonth( 11 )
-        }
-        // Else decrease month by 1
-        else {
-            setMonth( month - 1)
-        }
     }
 
     // Generate calendar according to Year, Month
@@ -109,12 +81,28 @@ function Calendar({ navigation }) {
 
     // When swipe from right to left, go to next month
     function onSwipeLeft(gestureState) {
-        onNextMonthPress()    
+        // If current month is December, increase year by 1 and set month to January
+        if( month == 11 ) {
+            setYear( year + 1)
+            setMonth( 0 )
+        }
+        // Else increase month by 1
+        else {
+            setMonth( month + 1)
+        }
     }
 
     // When swipe from left to right, go to previous month
     function onSwipeRight(gestureState) {
-        onPrevMonthPress()
+        // If current month is January, decrease year by 1 and set month to December
+        if( month == 0 ) {
+            setYear( year - 1)
+            setMonth( 11 )
+        }
+        // Else decrease month by 1
+        else {
+            setMonth( month - 1)
+        }
     }
      
     // Re-render when state 'month' changes by clicking with newly generated calendar 
@@ -123,6 +111,15 @@ function Calendar({ navigation }) {
         setCalendar( generateCalendar() )
         // Add button for changhing months on header
         navigation.setOptions({
+            headerStyle: {
+                // Remove bottom line of header
+                shadowColor: 'transparent',
+                backgroundColor: 'tomato'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
             title: months[month] + ' ' + year,
         });
     }, [month])
@@ -134,6 +131,7 @@ function Calendar({ navigation }) {
             config={swipeConfig}
             style={{
                 flex: 1,
+                backgroundColor: 'white'
             }}>
             <View
                 style={{ flex: 7, flexDirection: 'column'}}
