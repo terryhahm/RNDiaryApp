@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button } from 'react-native';
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const numDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -9,7 +9,7 @@ function Calendar({ navigation }) {
 
     // By Default, highlight Today
     const [date, setDate] = useState( new Date().getDate() )
-    const [month, setMonth] = useState( new Date().getMonth() + 1 )
+    const [month, setMonth] = useState( new Date().getMonth() )
     const [year, setYear] = useState( new Date().getFullYear() )
     const [calendar, setCalendar] = useState( [] );
 
@@ -24,10 +24,25 @@ function Calendar({ navigation }) {
 
     function onNextMonthPress() {
 
+        console.log( month )
+        if( month == 11 ) {
+            setYear( year + 1)
+            setMonth( 0 )
+        }
+        else {
+            setMonth( month + 1)
+        }
     }
 
     function onPrevMonthPress() {
-
+        console.log( month )
+        if( month == 0 ) {
+            setYear( year - 1)
+            setMonth( 11 )
+        }
+        else {
+            setMonth( month - 1)
+        }
     }
 
     function generateCalendar() {
@@ -39,7 +54,7 @@ function Calendar({ navigation }) {
         matrix[0] = days;
         
         // Get calendar information for current date (Today OR Selected Date)
-        var firstDay = new Date(year, month - 1, 1);
+        var firstDay = new Date(year, month, 1).getDay();
         var maxDays = numDays[month];
         // Change February's number of days according to leap year
         if (month == 1) { 
@@ -65,7 +80,7 @@ function Calendar({ navigation }) {
                 }
             }
         }
-        
+
         return matrix;
        
     }
@@ -73,7 +88,7 @@ function Calendar({ navigation }) {
     // Re-render when state 'date' changes by clicking with newly generated calendar 
     useEffect( () => {
         setCalendar( generateCalendar() )
-    }, [date])
+    }, [date, month, year])
 
     return (
         <View>
@@ -113,6 +128,17 @@ function Calendar({ navigation }) {
                     </View>
                 );
             }) }
+            <Button
+                title = "Next Month"
+                onPress = {() => onNextMonthPress()}
+            >
+            </Button> 
+            <Button
+                title = "Prev Month"
+                onPress = {() => onPrevMonthPress()}
+            >  
+            </Button>
+
         </View>
     )
 }
