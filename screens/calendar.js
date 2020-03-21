@@ -26,7 +26,7 @@ function Calendar({ navigation }) {
     function onDatePress( newDate ) {
 
         // Regex for positive integer
-        var regex = /^\d+$/; 
+        var regex = /^\d+$/;
 
         // Navigate to diary screen only if clicked text is date
         if( regex.test( newDate ) ){
@@ -46,12 +46,12 @@ function Calendar({ navigation }) {
 
         // First row of calendar : Day Indicator
         matrix[0] = days;
-        
+
         // Get calendar information for current date (Today OR Selected Date)
         var firstDay = new Date(year, month, 1).getDay();
         var maxDays = numDays[month];
         // Change February's number of days according to leap year
-        if (month == 1) { 
+        if (month == 1) {
             if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
                 maxDays += 1;
             }
@@ -66,7 +66,7 @@ function Calendar({ navigation }) {
                 if (row == 1 && col >= firstDay) {
                     // Fill in rows only after the first day of the month
                     matrix[row][col] = counter++;
-                } 
+                }
                 else if (row > 1 && counter <= maxDays) {
                     // Fill in rows only if the counter's not greater than
                     // the number of days in the month
@@ -76,7 +76,7 @@ function Calendar({ navigation }) {
         }
 
         return matrix;
-       
+
     }
 
     // When swipe from right to left, go to next month
@@ -104,8 +104,8 @@ function Calendar({ navigation }) {
             setMonth( month - 1)
         }
     }
-     
-    // Re-render when state 'month' changes by clicking with newly generated calendar 
+
+    // Re-render when state 'month' changes by clicking with newly generated calendar
     useEffect( () => {
         // render calendar
         setCalendar( generateCalendar() )
@@ -123,7 +123,7 @@ function Calendar({ navigation }) {
             title: months[month] + ' ' + year,
         });
     }, [month])
-    
+
     return (
         <GestureRecognizer
             onSwipeLeft={onSwipeLeft}
