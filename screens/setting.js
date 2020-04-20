@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, FlatList, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import SQLite from 'react-native-sqlite-2';
 
 function Setting() {
 
+  const db = SQLite.openDatabase("test.db", "1.0", "", 1);
+
   const SeiresPW = [false,false,false,false]
-  const [PW, PWChange] = useState("PW is ")
+  const [PW, PWChange] = useState("")
   const [FirstCode, FirstCodeChange] = useState("white")
   const [SecondCode, SecondCodeChange] = useState("white")
   const [ThirdCode, ThirdCodeChange] = useState("white")
   const [ForthCode, ForthCodeChange] = useState("white")
-
-
+  const enterText = "Enter Passcode"
+  const setupText = "Type your Passcode"
 
 
   const one = "1"
@@ -48,11 +51,51 @@ function Setting() {
     }
     else
     {
+      db.transaction(function(txn) {
+        // txn.executeSql("DROP TABLE IF EXISTS Users", []);
+        txn.executeSql(
+          "CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY NOT NULL, PW VARCHAR(30))",
+          []
+        );
+
+        txn.executeSql(
+          "SELECT * FROM Users",[], function(tx,res)
+          {
+            if(res.rows.length == 0)
+            {
+              txn.executeSql("INSERT INTO Users (PW) VALUES (:PW)", [PW]);
+            }
+            else
+            {
+              txn.executeSql("SELECT * FROM Users WHERE PW = ? AND user_id = 1",[PW],function(tx,res)
+              {
+                  if(res.rows.item(0) == null)
+                  {
+                    console.log("not founddddddddddd")
+                  }
+                  else {
+                    console.log("found")
+                  }
+
+              });
+            }
+          }
+        )
+
+
+
+        txn.executeSql("SELECT * FROM `users`", [], function(tx, res) {
+          for (let i = 0; i < res.rows.length; ++i) {
+            console.log("item:", res.rows.item(i));
+          }
+        });
+      });
+
       FirstCodeChange("white")
       SecondCodeChange("white")
       ThirdCodeChange("white")
       ForthCodeChange("white")
-      PWChange("PW is ")
+      PWChange("")
     }
 
   }
@@ -65,6 +108,7 @@ function Setting() {
       }}>
         <View style={{width: "100%", height: "10%", backgroundColor: 'powderblue'}}>
           <Text>
+            {enterText}
             {PW}
           </Text>
         </View>
