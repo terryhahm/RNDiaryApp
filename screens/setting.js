@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, FlatList, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SQLite from 'react-native-sqlite-2';
@@ -15,7 +15,45 @@ function Setting() {
   const [ForthCode, ForthCodeChange] = useState("white")
   const enterText = "Enter Passcode"
   const setupText = "Type your Passcode"
+  const reTypeText = "Try Again"
+  const correctText = "Correct"
 
+  const [StatusText, StatusChange] = useState("")
+  const [IsOpen,opened] = useState(false)
+
+
+
+  useEffect(() => {
+    if(IsOpen == false)
+    {
+      db.transaction(function(txn) {
+        console.log("fuuuuck")
+          txn.executeSql(
+            "CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY NOT NULL, PW VARCHAR(30))",
+            []
+          );
+
+          txn.executeSql(
+            "SELECT * FROM Users",[], function(tx,res)
+            {
+              if(res.rows.length == 0)
+              {
+                StatusChange(setupText)
+              }
+              else
+              {
+                txn.executeSql("SELECT * FROM Users WHERE PW = ? AND user_id = 1",[PW],function(tx,res)
+                {
+                  StatusChange(enterText)
+                });
+              }
+            }
+          )
+        });
+        opened(true)
+    }
+
+  });
 
   const one = "1"
   const two = "2"
@@ -28,75 +66,97 @@ function Setting() {
   const nine = "9"
   const zero = "0"
 
-
   function NumberPressed(value)
   {
-    PWChange(PW + value)
+    //backspace
+    if(value == -1)
+    {
+      PWChange(PW.slice(0, -1))
 
-    if(FirstCode == "white")
-    {
-      FirstCodeChange("black")
+      if(SecondCode == "white")
+      {
+        FirstCodeChange("white")
+      }
+      else if(ThirdCode == "white")
+      {
+        SecondCodeChange("white")
+      }
+      else if(ForthCode == "white")
+      {
+        ThirdCodeChange("white")
+      }
+      else if(ForthCode == "black")
+      {
+        ForthCodeChange("white")
+      }
     }
-    else if(SecondCode == "white")
+    else //number pressed
     {
-      SecondCodeChange("black")
-    }
-    else if(ThirdCode == "white")
-    {
-      ThirdCodeChange("black")
-    }
-    else if(ForthCode == "white")
-    {
-      ForthCodeChange("black")
-    }
-    else
-    {
-      db.transaction(function(txn) {
-        // txn.executeSql("DROP TABLE IF EXISTS Users", []);
-        txn.executeSql(
-          "CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY NOT NULL, PW VARCHAR(30))",
-          []
-        );
+      PWChange(PW + value)
+      if(FirstCode == "white")
+      {
+        FirstCodeChange("black")
+      }
+      else if(SecondCode == "white")
+      {
+        SecondCodeChange("black")
+      }
+      else if(ThirdCode == "white")
+      {
+        ThirdCodeChange("black")
+      }
+      else if(ForthCode == "white")
+      {
+        ForthCodeChange("black")
+      }
+      else
+      {
+        db.transaction(function(txn) {
+          // txn.executeSql("DROP TABLE IF EXISTS Users", []);
+          txn.executeSql(
+            "CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY NOT NULL, PW VARCHAR(30))",
+            []
+          );
 
-        txn.executeSql(
-          "SELECT * FROM Users",[], function(tx,res)
-          {
-            if(res.rows.length == 0)
+          txn.executeSql(
+            "SELECT * FROM Users",[], function(tx,res)
             {
-              txn.executeSql("INSERT INTO Users (PW) VALUES (:PW)", [PW]);
-            }
-            else
-            {
-              txn.executeSql("SELECT * FROM Users WHERE PW = ? AND user_id = 1",[PW],function(tx,res)
+              if(res.rows.length == 0)
               {
-                  if(res.rows.item(0) == null)
-                  {
-                    console.log("not founddddddddddd")
-                  }
-                  else {
-                    console.log("found")
-                  }
+                txn.executeSql("INSERT INTO Users (PW) VALUES (:PW)", [PW]);
+              }
+              else
+              {
+                txn.executeSql("SELECT * FROM Users WHERE PW = ? AND user_id = 1",[PW],function(tx,res)
+                {
+                    if(res.rows.item(0) == null)
+                    {
+                      StatusChange(reTypeText)
+                    }
+                    else {
+                      StatusChange(correctText)
+                    }
 
-              });
+                });
+              }
             }
-          }
-        )
-
-
-
-        txn.executeSql("SELECT * FROM `users`", [], function(tx, res) {
-          for (let i = 0; i < res.rows.length; ++i) {
-            console.log("item:", res.rows.item(i));
-          }
+          )
+          txn.executeSql("SELECT * FROM `users`", [], function(tx, res) {
+            for (let i = 0; i < res.rows.length; ++i) {
+              console.log("item:", res.rows.item(i));
+            }
+          });
         });
-      });
 
-      FirstCodeChange("white")
-      SecondCodeChange("white")
-      ThirdCodeChange("white")
-      ForthCodeChange("white")
-      PWChange("")
+        FirstCodeChange("white")
+        SecondCodeChange("white")
+        ThirdCodeChange("white")
+        ForthCodeChange("white")
+        PWChange("")
+      }
     }
+
+
 
   }
 
@@ -108,7 +168,7 @@ function Setting() {
       }}>
         <View style={{width: "100%", height: "10%", backgroundColor: 'powderblue'}}>
           <Text>
-            {enterText}
+            {StatusText}
             {PW}
           </Text>
         </View>
@@ -238,16 +298,24 @@ function Setting() {
             <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
               <View style={{width: "11%", backgroundColor: 'black'}} />
               <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View
+
+            <View
                 onTouchStart={() => {
                   NumberPressed(zero);
                   }}
                 style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
                 <Text>{zero}</Text>
-
               </View>
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "11%", backgroundColor: 'black'}} />
+
+              <View
+                onTouchStart={() => {
+                  NumberPressed(-1);
+                  }}
+                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                <Text>backspace</Text>
+              </View>
+
+            <View style={{width: "11%", backgroundColor: 'black'}} />
             </View>
           </View>
 
