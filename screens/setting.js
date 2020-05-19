@@ -2,6 +2,8 @@ import React, {useState,useEffect} from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, FlatList, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import SQLite from 'react-native-sqlite-2';
+import Pie from 'react-native-pie'
+
 
 function Setting() {
 
@@ -9,10 +11,10 @@ function Setting() {
 
   const SeiresPW = [false,false,false,false]
   const [PW, PWChange] = useState("")
-  const [FirstCode, FirstCodeChange] = useState("white")
-  const [SecondCode, SecondCodeChange] = useState("white")
-  const [ThirdCode, ThirdCodeChange] = useState("white")
-  const [ForthCode, ForthCodeChange] = useState("white")
+  const [FirstCode, FirstCodeChange] = useState("black")
+  const [SecondCode, SecondCodeChange] = useState("black")
+  const [ThirdCode, ThirdCodeChange] = useState("black")
+  const [ForthCode, ForthCodeChange] = useState("black")
   const enterText = "Enter Passcode"
   const setupText = "Type your Passcode"
   const reTypeText = "Try Again"
@@ -72,41 +74,41 @@ function Setting() {
     {
       PWChange(PW.slice(0, -1))
 
-      if(SecondCode == "white")
+      if(SecondCode == "black")
       {
-        FirstCodeChange("white")
+        FirstCodeChange("grey")
       }
-      else if(ThirdCode == "white")
+      else if(ThirdCode == "black")
       {
-        SecondCodeChange("white")
-      }
-      else if(ForthCode == "white")
-      {
-        ThirdCodeChange("white")
+        SecondCodeChange("grey")
       }
       else if(ForthCode == "black")
       {
-        ForthCodeChange("white")
+        ThirdCodeChange("grey")
+      }
+      else if(ForthCode == "black")
+      {
+        ForthCodeChange("grey")
       }
     }
     else //number pressed
     {
       PWChange(PW + value)
-      if(FirstCode == "white")
+      if(FirstCode == "black")
       {
-        FirstCodeChange("black")
+        FirstCodeChange("grey")
       }
-      else if(SecondCode == "white")
+      else if(SecondCode == "black")
       {
-        SecondCodeChange("black")
+        SecondCodeChange("grey")
       }
-      else if(ThirdCode == "white")
+      else if(ThirdCode == "black")
       {
-        ThirdCodeChange("black")
+        ThirdCodeChange("grey")
       }
-      else if(ForthCode == "white")
+      else if(ForthCode == "black")
       {
-        ForthCodeChange("black")
+        ForthCodeChange("grey")
       }
       else
       {
@@ -147,10 +149,10 @@ function Setting() {
           });
         });
 
-        FirstCodeChange("white")
-        SecondCodeChange("white")
-        ThirdCodeChange("white")
-        ForthCodeChange("white")
+        FirstCodeChange("black")
+        SecondCodeChange("black")
+        ThirdCodeChange("black")
+        ForthCodeChange("black")
         PWChange("")
       }
     }
@@ -166,7 +168,7 @@ function Setting() {
         flexDirection: 'column',
       }}>
 
-        <View style={{width: "100%", height: "20%", backgroundColor: 'skyblue'}} >
+        <View style={{width: "100%", height: "10%", backgroundColor: 'white'}} >
           <View style={{
             flex: 1,
             flexDirection: 'row',
@@ -175,6 +177,10 @@ function Setting() {
             margin: "3%"
 
           }}>
+          <Text>
+            {StatusText}
+            {PW}
+          </Text>
             <View style={{width: "3%",  borderRadius: 100 ,height:"10%", backgroundColor: FirstCode}} />
             <View style={{width: "3%",  borderRadius: 100 ,height:"10%", backgroundColor: SecondCode}} />
             <View style={{width: "3%",  borderRadius: 100 ,height:"10%", backgroundColor: ThirdCode}} />
@@ -182,8 +188,43 @@ function Setting() {
 
           </View>
 
+
         </View>
-        <View style={{width: "100%", height: "70%", backgroundColor: 'steelblue'}}>
+
+        <View style={{flex: 1,width: "100%", height: "20%", backgroundColor: 'black'}} >
+
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingVertical: 15,
+              width: "25%",
+            }}
+          >
+            <Pie
+              radius={25}
+              sections={[
+                {
+                  percentage: 33,
+                  color: '#C70039',
+                },
+                {
+                  percentage: 33,
+                  color: '#44CD40',
+                },
+                {
+                  percentage: 33,
+                  color: '#404FCD',
+                },
+              ]}
+              strokeCap={'butt'}
+            />
+          </View>
+        </View>
+
+        <View style={{width: "100%", height: "70%", backgroundColor: 'white'}}>
           <View style={{
             flex: 1,
             flexDirection: 'column',
@@ -191,135 +232,182 @@ function Setting() {
           }}>
           <View style={{height: "10%"}}>
             <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "11%", backgroundColor: 'black'}} />
+              <View style={{width: "11%", backgroundColor: 'white'}} />
+              <View style={{width: "26%", backgroundColor: 'white'}} />
+              <View style={{width: "26%", backgroundColor: 'white'}} />
+              <View style={{width: "26%", backgroundColor: 'white'}} />
+              <View style={{width: "11%", backgroundColor: 'white'}} />
             </View>
           </View>
 
 
-          <View style={{height: "20%",borderBottomWidth:1}}>
-            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-              <View
-                onTouchStart={() => {
-                  NumberPressed(one);
-                  }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'red'}}>
-                <Text>{one}</Text>
-              </View>
 
-              <View
-                onTouchStart={() => {
-                  NumberPressed(two);
-                  }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'orange'}}>
-                <Text>{two}</Text>
-              </View>
+
+          <View style={{
+              height: "14%",
+              shadowRadius: 0,
+              shadowColor: 'transparent',
+              shadowOffset: {
+                  height: 0,
+              },
+            }}>
+            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
+              <View style={{width: "27%", backgroundColor: 'white'}} />
+
+                <View
+                  onTouchStart={() => {
+                    NumberPressed(one);
+                    }}
+                  style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'red'}}>
+                  <Text>{one}</Text>
+                </View>
+
+                <View style={{width: "11%", backgroundColor: 'white'}} />
+
+                <View
+                  onTouchStart={() => {
+                    NumberPressed(two);
+                    }}
+                  style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'orange'}}>
+                  <Text>{two}</Text>
+                </View>
+
+                <View style={{width: "27%", backgroundColor: 'white'}} />
+
+            </View>
+          </View>
+
+
+          <View style={{
+              height: "3%",
+              shadowRadius: 0,
+              shadowColor: 'transparent',
+              shadowOffset: {
+                  height: 0,
+              },
+            }}>
+          </View>
+
+          <View style={{
+              height: "14%",
+              shadowRadius: 0,
+              shadowColor: 'transparent',
+              shadowOffset: {
+                  height: 0,
+              },
+            }}>
+            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
+
+              <View style={{width: "12.5%", backgroundColor: 'white'}} />
+
+                <View
+                  onTouchStart={() => {
+                    NumberPressed(seven);
+                    }}
+                  style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'purple'}}>
+                  <Text>{seven}</Text>
+                </View>
+
+              <View style={{width: "40%", backgroundColor: 'white'}} />
 
               <View
                 onTouchStart={() => {
                   NumberPressed(three);
                   }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'yellow'}}>
+                style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'yellow'}}>
                 <Text>{three}</Text>
               </View>
 
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-            </View>
+            <View style={{width: "12.5%", backgroundColor: 'white'}} />
+
           </View>
-          <View style={{height: "20%",borderBottomWidth:1}}>
+        </View>
+
+        <View style={{
+            height: "3%",
+            shadowRadius: 0,
+            shadowColor: 'transparent',
+            shadowOffset: {
+                height: 0,
+            },
+          }}>
+        </View>
+
+          <View style={{
+              height: "14%",
+              shadowRadius: 0,
+              shadowColor: 'transparent',
+              shadowOffset: {
+                  height: 0,
+              },
+            }}>
             <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(four);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'green'}}>
-                  <Text>{four}</Text>
-                </View>
 
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(five);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'blue'}}>
-                  <Text>{five}</Text>
-                </View>
-
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(six);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'navy'}}>
-                  <Text>{six}</Text>
-
-                </View>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-            </View>
-          </View>
-          <View style={{height: "20%",borderBottomWidth:1}}>
-            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(seven);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'purple'}}>
-                  <Text>{seven}</Text>
-                </View>
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(eight);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
-                  <Text>{eight}</Text>
-                </View>
-                <View
-                  onTouchStart={() => {
-                    NumberPressed(nine);
-                    }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
-                  <Text>{nine}</Text>
-
-                </View>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-            </View>
-          </View>
-          <View style={{height: "20%",borderBottomWidth:1}}>
-            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-
-            <View
-                onTouchStart={() => {
-                  NumberPressed(zero);
-                  }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
-                <Text>{zero}</Text>
-              </View>
+              <View style={{width: "20%", backgroundColor: 'white'}} />
 
               <View
                 onTouchStart={() => {
-                  NumberPressed(-1);
+                  NumberPressed(five);
                   }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
-                <Text>backspace</Text>
+                style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'blue'}}>
+                <Text>{five}</Text>
               </View>
 
-            <View style={{width: "11%", backgroundColor: 'black'}} />
+              <View style={{width: "25%", backgroundColor: 'white'}} />
+
+              <View
+                  onTouchStart={() => {
+                    NumberPressed(four);
+                    }}
+                  style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'green'}}>
+                  <Text>{four}</Text>
+              </View>
+              <View style={{width: "20%", backgroundColor: 'white'}} />
             </View>
           </View>
+
+
+
+          <View style={{
+              height: "14%",
+              shadowRadius: 0,
+              shadowColor: 'transparent',
+              shadowOffset: {
+                  height: 0,
+              },
+            }}>
+            <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
+            <View style={{width: "41.25%", backgroundColor: 'white'}} />
+
+            <View
+              onTouchStart={() => {
+                NumberPressed(six);
+                }}
+              style={{justifyContent: "center",alignItems: "center", width: "17.5%", borderRadius: 100 ,backgroundColor: 'navy'}}>
+              <Text>{six}</Text>
+            </View>
+
+            <View style={{width: "41.25%", backgroundColor: 'white'}} />
+            </View>
+          </View>
+
+
 
           <View style={{height: "10%"}}>
             <View style={{height: "5%", flex: 1, flexDirection: 'row'}}>
-              <View style={{width: "11%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "26%", backgroundColor: 'black'}} />
-              <View style={{width: "11%", backgroundColor: 'black'}} />
+              <View style={{width: "11%", backgroundColor: 'white'}} />
+              <View style={{width: "26%", backgroundColor: 'white'}} />
+
+
+          <View
+            onTouchStart={() => {
+              NumberPressed(-1);
+              }}
+            style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'steelblue'}}>
+            <Text>backspace</Text>
+          </View>
+
+            <View style={{width: "11%", backgroundColor: 'white'}} />
             </View>
           </View>
 
@@ -328,12 +416,6 @@ function Setting() {
           </View>
 
 
-        </View>
-        <View style={{width: "100%", height: "10%", backgroundColor: 'powderblue'}}>
-          <Text>
-            {StatusText}
-            {PW}
-          </Text>
         </View>
       </View>
 

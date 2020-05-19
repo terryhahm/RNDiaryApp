@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/slider": "^2.0.9",
@@ -24,6 +25,7 @@
     "react-native-gesture-handler": "^1.6.0",
     "react-native-material-color": "^1.0.15",
     "react-native-modals": "^0.19.9",
+    "react-native-pie": "^1.1.2",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.2.0",
