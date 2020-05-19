@@ -34,9 +34,7 @@ target 'diary' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   
-  pod 'RNSqlite2', :path => '../node_modules/react-native-sqlite-2'
 
   target 'diaryTests' do
     inherit! :search_paths

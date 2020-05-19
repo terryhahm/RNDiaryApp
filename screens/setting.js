@@ -27,7 +27,6 @@ function Setting() {
     if(IsOpen == false)
     {
       db.transaction(function(txn) {
-        console.log("fuuuuck")
           txn.executeSql(
             "CREATE TABLE IF NOT EXISTS Users(user_id INTEGER PRIMARY KEY NOT NULL, PW VARCHAR(30))",
             []
@@ -166,12 +165,7 @@ function Setting() {
         flex: 1,
         flexDirection: 'column',
       }}>
-        <View style={{width: "100%", height: "10%", backgroundColor: 'powderblue'}}>
-          <Text>
-            {StatusText}
-            {PW}
-          </Text>
-        </View>
+
         <View style={{width: "100%", height: "20%", backgroundColor: 'skyblue'}} >
           <View style={{
             flex: 1,
@@ -213,7 +207,7 @@ function Setting() {
                 onTouchStart={() => {
                   NumberPressed(one);
                   }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'red'}}>
                 <Text>{one}</Text>
               </View>
 
@@ -221,7 +215,7 @@ function Setting() {
                 onTouchStart={() => {
                   NumberPressed(two);
                   }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'orange'}}>
                 <Text>{two}</Text>
               </View>
 
@@ -229,7 +223,7 @@ function Setting() {
                 onTouchStart={() => {
                   NumberPressed(three);
                   }}
-                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'yellow'}}>
                 <Text>{three}</Text>
               </View>
 
@@ -243,7 +237,7 @@ function Setting() {
                   onTouchStart={() => {
                     NumberPressed(four);
                     }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'green'}}>
                   <Text>{four}</Text>
                 </View>
 
@@ -251,7 +245,7 @@ function Setting() {
                   onTouchStart={() => {
                     NumberPressed(five);
                     }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'blue'}}>
                   <Text>{five}</Text>
                 </View>
 
@@ -259,7 +253,7 @@ function Setting() {
                   onTouchStart={() => {
                     NumberPressed(six);
                     }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'navy'}}>
                   <Text>{six}</Text>
 
                 </View>
@@ -273,7 +267,7 @@ function Setting() {
                   onTouchStart={() => {
                     NumberPressed(seven);
                     }}
-                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'white'}}>
+                  style={{justifyContent: "center",alignItems: "center", width: "26%", borderRadius: 100 ,backgroundColor: 'purple'}}>
                   <Text>{seven}</Text>
                 </View>
                 <View
@@ -334,6 +328,12 @@ function Setting() {
           </View>
 
 
+        </View>
+        <View style={{width: "100%", height: "10%", backgroundColor: 'powderblue'}}>
+          <Text>
+            {StatusText}
+            {PW}
+          </Text>
         </View>
       </View>
 
