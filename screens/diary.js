@@ -10,6 +10,7 @@ import {
   TextInput,
   Button,
   View,
+  Keyboard,
 
 } from 'react-native';
 
@@ -108,24 +109,44 @@ function Diary({ route, navigation }) {
     }
 
     return (
-      <View>
-        <Button title="Show modal" onPress={() => onModalButtonPress(!modalDisplay)}></Button>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column',
+        }}>
+
+
+        <View style={{
+            height: "5%",
+            backgroundColor: "white",
+          }}>
+          <Button title="Show modal" onPress={() => onModalButtonPress(!modalDisplay)}></Button>
+        </View>
+
+        <View style={{
+            height: "95%",
+            backgroundColor: "white",
+          }}>
+          <UselessTextInput
+            multiline
+            keyboardType="default"
+            returnKeyType="done"
+            blurOnSubmit={true}
+            onSubmitEditing={()=>{Keyboard.show()}}
+            numberOfLines={10}
+            onChangeText={text => onChangeText(text)}
+            value={value}
+            style={{
+              backgroundColor: 'white',
+              borderBottomWidth: 1,
+              height: "100%",
+            }}
+          />
+        </View>
 
 
 
 
 
-        <UselessTextInput
-          multiline
-          numberOfLines={10}
-          onChangeText={text => onChangeText(text)}
-          value={value}
-          style={{
-            backgroundColor: '#f0f8ff',
-            borderBottomWidth: 1,
-            height: 80,
-          }}
-        />
         <Modal
           width={0.95}
           height={0.5}
@@ -139,7 +160,7 @@ function Diary({ route, navigation }) {
             </ModalFooter>}
           rounded={true}
           modalStyle={{
-                      backgroundColor: 'rgba(0,0,0,0.5)',
+                      backgroundColor: '#c1adc7',
                     }}
           actionsBordered
           onTouchOutside={() => {
@@ -271,9 +292,9 @@ function Diary({ route, navigation }) {
           </Text>
 
 
-          </View>
-        </ModalContent>
-        </Modal>
+              </View>
+            </ModalContent>
+          </Modal>
       </View>
 
     );
